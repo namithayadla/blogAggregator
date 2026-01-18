@@ -1,0 +1,5 @@
+{
+  "db_url": "postgres://namithayadlapalli@localhost:5432/gator?sslmode=disable",
+  "current_user_name": "unknown"
+}
+
