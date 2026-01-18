@@ -36,6 +36,13 @@
       "when": 1768760214263,
       "tag": "0004_windy_zombie",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1768765075832,
+      "tag": "0005_marvelous_serpent_society",
+      "breakpoints": true
     }
   ]
 }

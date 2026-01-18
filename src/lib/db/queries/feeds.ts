@@ -6,6 +6,7 @@ import { readConfig } from 'config';
 import { getUserByName } from './users';
 import { getFeedByUrl } from './feed_follows';
 import { fetchFeed } from 'src/commands';
+import { createPost } from './posts';
 
 export async function createFeed(name: string, url: string, user_id: string) {
     const cfg = readConfig()
@@ -34,11 +35,23 @@ export async function getNextFeedToFetch() {
 export async function scrapeFeeds() {
     const nextFeed = await getNextFeedToFetch()
     if(!nextFeed) {
-        process.exit(0)
+        return
     }
     await markFeedFetched(nextFeed.id)
     const rss = await fetchFeed(nextFeed.url)
     for(let item of rss.items) {
-        console.log(item.title)
+        const dateObj: Date = new Date(item.pubDate)
+        if(isNaN(dateObj.getTime())) {
+            continue;
+        }
+        try {
+            await createPost(item.title, item.link, item.description, dateObj, nextFeed.id)
+        } catch(err) {
+            const e = err as any
+            if(e.code === "23505" || e.cause?.code === "23505") {
+                continue
+            }
+            throw err
+        }
     }
 }

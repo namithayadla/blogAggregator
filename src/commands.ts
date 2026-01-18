@@ -184,6 +184,12 @@ export async function handlerUnfollow(cmdName: string, user: User, ...args: stri
         console.log("deleted!")
     }
 }
+export async function handlerBrowse(cmdName: string, ...args: string[]) {
+    let limit = args[0]
+    if(!limit) {
+        limit = "2"
+    }
+}
 
 export type Feed = typeof feeds.$inferSelect
 export type User = typeof users.$inferSelect

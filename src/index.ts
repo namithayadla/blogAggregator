@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 import { register } from "module"
 import { setUser, readConfig } from "../config"
-import {handlerLogin, handlerRegister, runCommand, registerCommand, handlerReset, handlerUsers, handlerAgg, addfeed, handlerListFeeds, handlerFollow, handlerFollowing, MiddlewareLoggedIn, handlerUnfollow} from "./commands"
+import {handlerLogin, handlerRegister, runCommand, registerCommand, handlerReset, handlerUsers, handlerAgg, addfeed, handlerListFeeds, handlerFollow, handlerFollowing, MiddlewareLoggedIn, handlerUnfollow, handlerBrowse} from "./commands"
 import { CommandsRegistry } from "./commands"
 import { getUserByName } from "./lib/db/queries/users"
 async function main() {
@@ -53,6 +53,8 @@ async function main() {
         registerCommand(registry, commandName, middlewareLoggedIn(handlerFollowing))
     } else if(commandName === "unfollow") {
         registerCommand(registry, commandName, middlewareLoggedIn(handlerUnfollow))
+    } else if(commandName === "browse") {
+        registerCommand(registry, commandName, handlerBrowse)
     }
     // Only check for username argument if the command requires it
     if(commandName !== "reset" && commandName != "following" && commandName !== "users" && commandName !== "addfeed" && commandName !== "feeds" && (commandArgs.length === 0 || commandArgs[0] === undefined || commandArgs[0] === "")) {
